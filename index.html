@@ -33,7 +33,7 @@
             height: auto;
             z-index: -1;
             opacity: 100%;
-            opacity: 100%; /* Adjust opacity here */
+            opacity: 100%;
         }
         .clock {
             position: absolute;
@@ -376,16 +376,16 @@
     </div>
     <button id="save-btn" onclick="saveTasks()">Save Tasks</button>
     <div class="task-manager">
-        <!-- Your existing task manager content -->
+
         <button class="add-task-btn">+</button>
     </div>
     <script>
-// Select necessary DOM elements
+//DOM elements
 const taskList = document.querySelector('.task-list');
 const addTaskButton = document.querySelector('.add-task-btn');
 const clockElement = document.getElementById('clock');
 
-// Function to add a task to the DOM
+//add a task to the DOM(added tasks not for default 6 ones)
 function addTaskToDOM(taskData = { title: '', description: '', completed: false }) {
     const task = document.createElement('div');
     task.classList.add('task');
@@ -416,7 +416,7 @@ function addTaskToDOM(taskData = { title: '', description: '', completed: false 
     taskList.appendChild(task);
 }
 
-// Function to save tasks to localStorage
+// Function-- save tasks to localStorage (for default/main 6 tasks)
 function saveTasksToLocalStorage() {
     const tasks = [];
     document.querySelectorAll('.task').forEach(task => {
@@ -428,36 +428,34 @@ function saveTasksToLocalStorage() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
-// Function to load tasks from localStorage
+// Function-- load tasks from localStorage (reload functions)
 function loadTasksFromLocalStorage() {
     const savedTasks = localStorage.getItem('tasks');
     if (savedTasks) {
         const tasks = JSON.parse(savedTasks);
-        taskList.innerHTML = ''; // Clear the task list to avoid duplicates
+        taskList.innerHTML = '';
         tasks.forEach(taskData => addTaskToDOM(taskData));
     } else {
-        // Save the initial default tasks if no tasks are saved yet
+        // Save default tasks
         saveTasksToLocalStorage();
     }
 }
 
-// Event listener for the "Add Task" button
 addTaskButton.addEventListener('click', () => {
-    addTaskToDOM(); // Add a new empty task
+    addTaskToDOM(); // Add a new task
     saveTasksToLocalStorage();
 });
 
-// Function to update the real-time clock
+//update clock date+time
 function updateClock() {
     const now = new Date();
     clockElement.textContent = now.toLocaleString();
 }
 
-// Initialize tasks and clock on page load
 document.addEventListener('DOMContentLoaded', () => {
-    loadTasksFromLocalStorage(); // Load tasks from localStorage or initialize defaults
-    updateClock(); // Initialize clock
-    setInterval(updateClock, 1000); // Update clock every second
+    loadTasksFromLocalStorage();
+    updateClock();
+    setInterval(updateClock, 1000); // Update clock per second
 });
     </script>
 </body>
